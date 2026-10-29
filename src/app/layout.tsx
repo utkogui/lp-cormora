@@ -16,7 +16,7 @@ const raleway = Raleway({
 });
 
 export const metadata: Metadata = {
-  title: 'Cormora — Sistema para agências de viagem',
+  title: 'Cormora: Sistema para agências de viagem',
   description: 'Orçamento e atendimento no mesmo sistema. 14 dias no Completo, sem cartão.',
   icons: {
     icon: [{ url: '/logos/logomark.svg', type: 'image/svg+xml' }],

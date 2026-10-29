@@ -40,7 +40,7 @@ export function LandingPricing() {
             14 dias no Completo. Depois, você escolhe.
           </h2>
           <p className="text-md text-tertiary">
-            Sem cartão no trial. No dia 15 a agência segue no Básico, no Médio ou no Completo — ou para.
+            Sem cartão no trial. No dia 15 a agência segue no Básico, no Médio ou no Completo, ou para.
           </p>
         </div>
 

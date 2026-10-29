@@ -9,16 +9,14 @@ import {
   Table,
   Users01,
 } from '@untitledui/icons';
-import { Button } from '@/components/base/buttons/button';
 import { FeaturedIcon } from '@/components/foundations/featured-icon/featured-icon';
-import { appUrl } from '@/utils/app-url';
 import { LandingArt } from './landing-art';
+import { LandingCta } from './landing-cta';
 import { LandingDestinations } from './landing-destinations';
 import { LandingFooter } from './landing-footer';
 import { LandingHeader } from './landing-header';
 import { LandingHero } from './landing-hero';
 import { LandingPricing } from './landing-pricing';
-import { LandingShot } from './landing-shot';
 
 const FEATURES = [
   {
@@ -39,7 +37,7 @@ const FEATURES = [
   {
     icon: CheckDone01,
     title: 'Tarefas e lembretes',
-    text: 'Atividades do atendimento — sugeridas ou da agência.',
+    text: 'Atividades do atendimento, sugeridas ou da agência.',
   },
   {
     icon: File06,
@@ -84,7 +82,7 @@ export function LandingPage() {
       <main>
         <LandingHero />
 
-        <section className="bg-primary">
+        <section className="bg-secondary">
           <div className="mx-auto w-full max-w-6xl px-4 py-16 md:px-8 md:py-20">
             <div className="mx-auto mb-10 flex max-w-2xl flex-col items-center gap-3 text-center">
               <p className="text-xs font-semibold uppercase tracking-[0.08em] text-brand-secondary">O produto</p>
@@ -95,7 +93,7 @@ export function LandingPage() {
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {FEATURES.map((item) => (
-                <article key={item.title} className="rounded-2xl bg-secondary p-5 shadow-xs ring-1 ring-brand-200">
+                <article key={item.title} className="rounded-2xl bg-primary p-5 shadow-xs ring-1 ring-black/[0.06]">
                   <FeaturedIcon color="brand" theme="light" size="md" icon={item.icon} />
                   <h3 className="mt-4 font-display text-md font-semibold text-primary">{item.title}</h3>
                   <p className="mt-1 text-sm text-tertiary">{item.text}</p>
@@ -105,21 +103,20 @@ export function LandingPage() {
           </div>
         </section>
 
-        <section className="bg-brand-50">
+        <section className="bg-[#252b37]">
           <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 py-16 md:px-8 md:py-24">
             <div className="mx-auto flex max-w-2xl flex-col items-center gap-3 text-center">
               <p className="text-xs font-semibold uppercase tracking-[0.08em] text-brand-secondary">
                 Encanto no primeiro clique
               </p>
-              <h2 className="font-display text-display-xs font-semibold text-primary md:text-display-sm">
+              <h2 className="font-display text-display-xs font-semibold text-white md:text-display-sm">
                 O roteiro que o cliente abre
               </h2>
-              <p className="text-md text-tertiary">
-                Fotos, dias e descrição na página da viagem. O consultor envia o link — não monta PDF à mão.
+              <p className="text-md text-white/75">
+                Fotos, dias e descrição na página da viagem. O consultor envia o link. Não monta PDF à mão.
               </p>
             </div>
             <LandingDestinations />
-            <LandingShot src="/images/documentation/itinerary.png" alt="Roteiro de Liverpool no Cormora, com foto e dias da viagem" />
           </div>
         </section>
 
@@ -149,19 +146,7 @@ export function LandingPage() {
           <LandingPricing />
         </div>
 
-        <section className="relative overflow-hidden">
-          <LandingArt />
-          <div className="absolute inset-0 bg-[#5b2bb8]/25" />
-          <div className="relative mx-auto flex w-full max-w-6xl flex-col items-center gap-5 px-4 py-16 text-center md:px-8 md:py-24">
-            <h2 className="max-w-xl font-display text-display-xs font-semibold text-white md:text-display-sm">
-              Use o Completo por 14 dias. Depois decida.
-            </h2>
-            <p className="max-w-lg text-md text-white/85">Sem cartão no começo. A agência vê o ciclo inteiro antes de pagar.</p>
-            <Button color="primary" size="xl" href={appUrl('/login?tab=signup')}>
-              Começar agora
-            </Button>
-          </div>
-        </section>
+        <LandingCta />
       </main>
 
       <LandingFooter />

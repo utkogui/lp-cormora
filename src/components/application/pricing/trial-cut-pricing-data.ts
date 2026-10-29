@@ -26,7 +26,7 @@ const text = (value: string): PricingCell => ({ type: 'text', value });
 
 export const TRIAL_CUT_ROWS: PricingRow[] = [
   { type: 'group', label: 'Limites' },
-  { type: 'row', label: 'Uso sem custo', cells: [text('—'), text('—'), text('14 dias')] },
+  { type: 'row', label: 'Uso sem custo', cells: [text('Não'), text('Não'), text('14 dias')] },
   { type: 'row', label: 'Usuários', cells: [text('1'), text('15'), text('Ilimitado')] },
   { type: 'row', label: 'Propostas por mês', cells: [text('10'), text('100'), text('Ilimitado')] },
   {
