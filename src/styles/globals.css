@@ -1,0 +1,1280 @@
+@import "tailwindcss";
+@import "./theme.css";
+@import "./typography.css";
+
+@plugin "@tailwindcss/typography";
+@plugin "tailwindcss-react-aria-components";
+@plugin "tailwindcss-animate";
+
+@custom-variant dark (&:where(.dark-mode, .dark-mode *));
+@custom-variant label (& [data-label]);
+@custom-variant focus-input-within (&:has(input:focus));
+
+/* System (native OS) scrollbar for public view pages - no custom styling */
+@utility scrollbar-system {
+    scrollbar-width: auto;
+    scrollbar-color: auto;
+}
+.scrollbar-system::-webkit-scrollbar {
+    width: auto;
+    height: auto;
+    -webkit-appearance: auto;
+    appearance: auto;
+}
+.scrollbar-system::-webkit-scrollbar-button {
+    display: block;
+    width: auto;
+    height: auto;
+    -webkit-appearance: auto;
+    appearance: auto;
+}
+
+@utility scrollbar-hide {
+    /* For Webkit-based browsers (Chrome, Safari and Opera) */
+    &::-webkit-scrollbar {
+        display: none !important;
+        -webkit-appearance: none !important;
+    }
+
+    /* For IE, Edge and Firefox */
+    -ms-overflow-style: none !important; /* IE and Edge */
+    scrollbar-width: none !important; /* Firefox */
+}
+
+@utility scrollbar-default {
+    /* Webkit-based browsers (Chrome, Safari, Edge) */
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+        margin-right: -2px; /* Negative margin to align scrollbar with content */
+        -webkit-appearance: none;
+        appearance: none;
+    }
+
+    /* Hide scrollbar arrows/buttons completely */
+    &::-webkit-scrollbar-button {
+        display: none !important;
+        width: 0 !important;
+        height: 0 !important;
+        -webkit-appearance: none !important;
+        appearance: none !important;
+    }
+
+    /* Hide start and end buttons specifically */
+    &::-webkit-scrollbar-button:single-button {
+        display: none !important;
+        width: 0 !important;
+        height: 0 !important;
+    }
+
+    &::-webkit-scrollbar-button:start:decrement,
+    &::-webkit-scrollbar-button:end:increment {
+        display: none !important;
+        width: 0 !important;
+        height: 0 !important;
+        -webkit-appearance: none !important;
+        appearance: none !important;
+    }
+
+    /* Hide corner button */
+    &::-webkit-scrollbar-corner {
+        display: none !important;
+        background: transparent !important;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+        border: none;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--color-border-secondary);
+        border-radius: 9999px;
+        border: none;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: var(--color-border-secondary);
+    }
+
+    /* Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-secondary) transparent;
+}
+
+/** Horizontal scrollbar only (e.g. kanban board); vertical scroll still works via wheel/trackpad. */
+@utility scrollbar-x-only {
+    &::-webkit-scrollbar {
+        height: 8px;
+        width: 0;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+
+    &::-webkit-scrollbar-button {
+        display: none !important;
+        width: 0 !important;
+        height: 0 !important;
+    }
+
+    &::-webkit-scrollbar-corner {
+        display: none !important;
+        background: transparent !important;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+        border: none;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--color-border-secondary);
+        border-radius: 9999px;
+        border: none;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: var(--color-border-secondary);
+    }
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-secondary) transparent;
+}
+
+/* Explicit global rules for kanban horizontal scroll (mirrors .scrollbar-default pattern). */
+.scrollbar-x-only {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-secondary) transparent;
+}
+
+.scrollbar-x-only::-webkit-scrollbar {
+    height: 8px !important;
+    width: 0 !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+}
+
+.scrollbar-x-only::-webkit-scrollbar-button {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+.scrollbar-x-only::-webkit-scrollbar-corner {
+    display: none !important;
+    background: transparent !important;
+}
+
+.scrollbar-x-only::-webkit-scrollbar-track {
+    background: transparent !important;
+    border: none !important;
+}
+
+.scrollbar-x-only::-webkit-scrollbar-thumb {
+    background-color: var(--color-border-secondary) !important;
+    border-radius: 9999px !important;
+    border: none !important;
+}
+
+.scrollbar-x-only::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-border-secondary) !important;
+}
+
+/* Global rule to ensure scrollbar buttons are hidden everywhere */
+.scrollbar-default::-webkit-scrollbar-button,
+.scrollbar-default::-webkit-scrollbar-button:start:decrement,
+.scrollbar-default::-webkit-scrollbar-button:end:increment {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+}
+
+@utility transition-inherit-all {
+    transition-property: inherit;
+    transition-duration: inherit;
+    transition-timing-function: inherit;
+}
+
+/*
+ * Semantic headings — Interações drawer is the visual reference.
+ * h1 = page · h2 = drawer/modal/section · h3 = subsection
+ * Color is always --color-text-primary (do not override with hex).
+ */
+@utility heading-1 {
+    font-family: var(--font-display);
+    font-size: var(--text-display-xs);
+    line-height: var(--text-display-xs--line-height);
+    font-weight: 600;
+    color: var(--color-text-primary);
+
+    @media (width >= 1440px) {
+        font-size: 27px;
+        line-height: 34px;
+    }
+
+    @media (width >= 1920px) {
+        font-size: var(--text-display-sm);
+        line-height: var(--text-display-sm--line-height);
+    }
+}
+
+@utility heading-2 {
+    font-family: var(--font-display);
+    font-size: var(--text-md);
+    line-height: var(--text-md--line-height);
+    font-weight: 600;
+    color: var(--color-text-primary);
+
+    @media (width >= 1920px) {
+        font-size: var(--text-lg);
+        line-height: var(--text-lg--line-height);
+    }
+}
+
+@utility heading-3 {
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    font-weight: 600;
+    color: var(--color-text-primary);
+
+    @media (width >= 1920px) {
+        font-size: var(--text-md);
+        line-height: var(--text-md--line-height);
+    }
+}
+
+@utility heading-label {
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+}
+
+/* Drawer + form typography (Fase 1) — aliases of heading-2 */
+@utility drawer-title {
+    font-family: var(--font-display);
+    font-size: var(--text-md);
+    line-height: var(--text-md--line-height);
+    font-weight: 600;
+    color: var(--color-text-primary);
+
+    @media (width >= 1920px) {
+        font-size: var(--text-lg);
+        line-height: var(--text-lg--line-height);
+    }
+}
+
+@utility drawer-subtitle {
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+    color: var(--color-text-tertiary);
+
+    @media (width >= 1440px) {
+        font-size: 13px;
+        line-height: 18px;
+    }
+
+    @media (width >= 1920px) {
+        font-size: var(--text-sm);
+        line-height: var(--text-sm--line-height);
+    }
+}
+
+@utility field-label {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    font-weight: 500;
+}
+
+@utility overlay-callout {
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-brand-200);
+    border-left-width: 3px;
+    border-left-color: var(--color-bg-brand-solid);
+    background-color: var(--color-brand-200);
+    padding: 0.75rem 0.875rem;
+}
+
+@utility field-hint {
+    font-size: var(--text-xs);
+    line-height: 18px;
+    font-weight: 400;
+    color: var(--color-text-tertiary);
+
+    @media (width >= 1920px) {
+        font-size: var(--text-sm);
+        line-height: var(--text-sm--line-height);
+    }
+}
+
+/* Numeric / currency / counts — always Inter (Raleway is poor for figures) */
+@utility font-numeric {
+    font-family: var(--font-body);
+    font-variant-numeric: tabular-nums;
+}
+
+@utility control-icon-sm {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+}
+
+@utility control-icon-md {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+}
+
+/* Buttons / toggles / form triggers — stay dense (do not jump to 14px at 1920) */
+@utility control-text-sm {
+    font-size: 11px;
+    line-height: 14px;
+
+    @media (width >= 1440px) {
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    @media (width >= 1920px) {
+        font-size: 12px;
+        line-height: 16px;
+    }
+}
+
+@utility control-text-md {
+    font-size: 11px;
+    line-height: 16px;
+
+    @media (width >= 1440px) {
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    @media (width >= 1920px) {
+        font-size: var(--text-md);
+        line-height: var(--text-md--line-height);
+    }
+}
+
+@utility control-min-h-sm {
+    min-height: 1.75rem; /* 28px */
+
+    @media (width >= 1440px) {
+        min-height: 1.875rem; /* 30px */
+    }
+
+    @media (width >= 1920px) {
+        min-height: 2rem; /* 32px — was 36px; keep toolbar selectors compact */
+    }
+}
+
+/** Fixed height for toolbar / button sm — compact at all breakpoints */
+@utility control-h-sm {
+    height: 1.75rem;
+    min-height: 1.75rem;
+    max-height: 1.75rem;
+
+    @media (width >= 1440px) {
+        height: 1.875rem;
+        min-height: 1.875rem;
+        max-height: 1.875rem;
+    }
+
+    @media (width >= 1920px) {
+        height: 2rem;
+        min-height: 2rem;
+        max-height: 2rem;
+    }
+}
+
+/** Neutral action control surface — buttons, groups, triggers (border + shadow; forms use ring) */
+@utility control-surface-action {
+    border-radius: var(--radius-lg);
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--border-color-secondary);
+    background-color: var(--background-color-primary);
+    box-shadow: var(--shadow-xs);
+}
+
+/** Label text on action controls with visible text */
+@utility control-label {
+    color: var(--text-color-secondary);
+
+    &:hover {
+        color: var(--text-color-secondary_hover);
+    }
+}
+
+/** Icon-only action controls (utility buttons, icon toggles) */
+@utility control-icon-muted {
+    color: var(--color-fg-quaternary);
+
+    &:hover {
+        color: var(--color-fg-quaternary_hover);
+    }
+}
+
+@utility control-min-h-md {
+    min-height: 1.75rem;
+
+    @media (width >= 1440px) {
+        min-height: 1.875rem;
+    }
+
+    @media (width >= 1920px) {
+        min-height: 2.5rem;
+    }
+}
+
+@utility control-hit-sm {
+    width: 1.625rem;
+    height: 1.625rem;
+    min-width: 1.625rem;
+    min-height: 1.625rem;
+
+    @media (width >= 1440px) {
+        width: 1.75rem;
+        height: 1.75rem;
+        min-width: 1.75rem;
+        min-height: 1.75rem;
+    }
+
+    @media (width >= 1920px) {
+        width: 2.25rem;
+        height: 2.25rem;
+        min-width: 2.25rem;
+        min-height: 2.25rem;
+    }
+}
+
+@utility control-hit-md {
+    width: 1.75rem;
+    height: 1.75rem;
+    min-width: 1.75rem;
+    min-height: 1.75rem;
+
+    @media (width >= 1440px) {
+        width: 1.875rem;
+        height: 1.875rem;
+        min-width: 1.875rem;
+        min-height: 1.875rem;
+    }
+
+    @media (width >= 1920px) {
+        width: 2.5rem;
+        height: 2.5rem;
+        min-width: 2.5rem;
+        min-height: 2.5rem;
+    }
+}
+
+@utility render-text-ui {
+    text-rendering: optimizeLegibility;
+}
+
+@utility render-icon {
+    shape-rendering: geometricPrecision;
+
+    & svg {
+        shape-rendering: geometricPrecision;
+    }
+}
+
+@utility render-dense-subpixel {
+    @media (width < 1440px) {
+        -webkit-font-smoothing: subpixel-antialiased;
+    }
+}
+
+/* Page shell typography + spacing — alias of heading-1 */
+@utility page-title {
+    font-family: var(--font-display);
+    font-size: var(--text-display-xs);
+    line-height: var(--text-display-xs--line-height);
+    font-weight: 600;
+    color: var(--color-text-primary);
+
+    @media (width >= 1440px) {
+        font-size: 27px;
+        line-height: 34px;
+    }
+
+    @media (width >= 1920px) {
+        font-size: var(--text-display-sm);
+        line-height: var(--text-display-sm--line-height);
+    }
+}
+
+@utility page-subtitle {
+    /* Always 12px — must stay clearly below page-title */
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 400;
+    color: var(--color-text-tertiary);
+}
+
+@utility page-shell-px {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+
+    @media (width >= 1440px) {
+        padding-left: 1.75rem;
+        padding-right: 1.75rem;
+    }
+
+    @media (width >= 1920px) {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+
+@utility page-shell-pt {
+    padding-top: 1.5rem;
+
+    @media (width >= 1440px) {
+        padding-top: 1.75rem;
+    }
+
+    @media (width >= 1920px) {
+        padding-top: 2rem;
+    }
+}
+
+@utility page-shell-pb {
+    padding-bottom: 1.5rem;
+
+    @media (width >= 1440px) {
+        padding-bottom: 1.75rem;
+    }
+
+    @media (width >= 1920px) {
+        padding-bottom: 2rem;
+    }
+}
+
+@utility page-shell-gap {
+    gap: 0.75rem;
+
+    @media (width >= 1440px) {
+        gap: 0.875rem;
+    }
+
+    @media (width >= 1920px) {
+        gap: 1rem;
+    }
+}
+
+/* Kanban typography + layout — 3-tier scale */
+@utility kanban-column-title {
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: 600;
+
+    @media (width >= 1440px) {
+        font-size: 12px;
+        line-height: 18px;
+    }
+
+    @media (width >= 1920px) {
+        font-size: var(--text-sm);
+        line-height: var(--text-sm--line-height);
+    }
+}
+
+@utility kanban-column-meta {
+    font-size: 10px;
+    line-height: 14px;
+    font-weight: 400;
+
+    @media (width >= 1440px) {
+        font-size: 11px;
+        line-height: 16px;
+    }
+
+    @media (width >= 1920px) {
+        font-size: 11px;
+        line-height: 16px;
+    }
+}
+
+@utility kanban-card-title {
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: 600;
+
+    @media (width >= 1440px) {
+        font-size: 12px;
+        line-height: 18px;
+    }
+
+    @media (width >= 1920px) {
+        font-size: var(--text-sm);
+        line-height: var(--text-sm--line-height);
+    }
+}
+
+@utility kanban-card-meta {
+    font-size: 10px;
+    line-height: 14px;
+    font-weight: 400;
+
+    @media (width >= 1440px) {
+        font-size: 11px;
+        line-height: 16px;
+    }
+
+    @media (width >= 1920px) {
+        font-size: 11px;
+        line-height: 16px;
+    }
+}
+
+/* Kanban status badge — overrides BadgeWithDot sm (text-xs) for compact pills */
+@utility kanban-card-badge {
+    gap: 0.125rem !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    padding-left: 0.25rem !important;
+    padding-right: 0.375rem !important;
+    font-size: 10px !important;
+    line-height: 14px !important;
+    font-weight: 500 !important;
+
+    @media (width >= 1440px) {
+        padding-left: 0.375rem !important;
+        padding-right: 0.5rem !important;
+        font-size: 10px !important;
+        line-height: 14px !important;
+    }
+
+    @media (width >= 1920px) {
+        gap: 0.25rem !important;
+        padding-top: 0.125rem !important;
+        padding-bottom: 0.125rem !important;
+        padding-left: 0.375rem !important;
+        padding-right: 0.5rem !important;
+        font-size: 11px !important;
+        line-height: 16px !important;
+    }
+}
+
+@utility kanban-card-min-h {
+    min-height: 6rem;
+
+    @media (width >= 1440px) {
+        min-height: 102px;
+    }
+
+    @media (width >= 1920px) {
+        min-height: 108px;
+    }
+}
+
+/** Vertical rhythm between title, meta, badge and footer row */
+@utility kanban-card-stack-gap {
+    gap: 0.375rem;
+
+    @media (width >= 1440px) {
+        gap: 0.5rem;
+    }
+
+    @media (width >= 1920px) {
+        gap: 0.625rem;
+    }
+}
+
+/** Kanban card inner padding — aligned to stack gap scale */
+@utility kanban-card-inset {
+    padding-inline: 0.625rem;
+    padding-block: 0.625rem;
+
+    @media (width >= 1440px) {
+        padding-inline: 0.75rem;
+        padding-block: 0.6875rem;
+    }
+
+    @media (width >= 1920px) {
+        padding-inline: 0.875rem;
+        padding-block: 0.75rem;
+    }
+}
+
+@utility kanban-board-gap {
+    gap: 0.5rem;
+
+    @media (width >= 1440px) {
+        gap: 0.625rem;
+    }
+
+    @media (width >= 1920px) {
+        gap: 0.75rem;
+    }
+}
+
+@utility kanban-column-header-h {
+    height: 3rem;
+
+    @media (width >= 1440px) {
+        height: 52px;
+    }
+
+    @media (width >= 1920px) {
+        height: 3.5rem;
+    }
+}
+
+/** Unified horizontal inset — text left edge matches icon gutter right edge */
+@utility kanban-column-header-inset {
+    padding-inline: 0.5rem;
+    padding-block: 0.25rem;
+
+    @media (width >= 1920px) {
+        padding-inline: 0.625rem;
+    }
+}
+
+@utility kanban-avatar {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+
+    @media (width >= 1440px) {
+        width: 18px;
+        height: 18px;
+    }
+
+    @media (width >= 1920px) {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+}
+
+@utility kanban-collapsed-w {
+    width: 2.25rem;
+    min-width: 2.25rem;
+    max-width: 2.25rem;
+
+    @media (width >= 1440px) {
+        width: 2.5rem;
+        min-width: 2.5rem;
+        max-width: 2.5rem;
+    }
+
+    @media (width >= 1920px) {
+        width: 2.75rem;
+        min-width: 2.75rem;
+        max-width: 2.75rem;
+    }
+}
+
+/** Bordered kanban surfaces — same radius as control-surface-action (toolbar sm controls) */
+@utility kanban-surface-radius {
+    border-radius: var(--radius-lg);
+}
+
+/** Kanban column header controls — dots, collapse, rail chevrons */
+@utility kanban-icon {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+}
+
+/* Table typography — 3-tier scale */
+@utility table-head-text {
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+    font-weight: 600;
+
+    @media (width >= 1440px) {
+        font-size: 13px;
+        line-height: 18px;
+    }
+
+    @media (width >= 1920px) {
+        font-size: var(--text-sm);
+        line-height: var(--text-sm--line-height);
+    }
+}
+
+@utility table-cell-text {
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+
+    @media (width >= 1440px) {
+        font-size: 13px;
+        line-height: 18px;
+    }
+
+    @media (width >= 1920px) {
+        font-size: var(--text-sm);
+        line-height: var(--text-sm--line-height);
+    }
+}
+
+/* Must follow table-cell-text: that utility sets line-height on every td and sits icons on the baseline. */
+@utility passenger-icon-cell {
+    vertical-align: middle;
+    line-height: 0 !important;
+}
+
+@utility table-cell-meta {
+    font-size: 10px;
+    line-height: 14px;
+
+    @media (width >= 1440px) {
+        font-size: 11px;
+        line-height: 15px;
+    }
+
+    @media (width >= 1920px) {
+        font-size: var(--text-xs);
+        line-height: var(--text-xs--line-height);
+    }
+}
+
+@utility table-cell-stack-gap {
+    gap: 0.125rem;
+
+    @media (width >= 1440px) {
+        gap: 0.1875rem;
+    }
+
+    @media (width >= 1920px) {
+        gap: 0.25rem;
+    }
+}
+
+@utility table-head-h-sm {
+    height: 2rem;
+
+    @media (width >= 1440px) {
+        height: 2.25rem;
+    }
+
+    @media (width >= 1920px) {
+        height: 2.5rem;
+    }
+}
+
+@utility table-row-h-sm {
+    min-height: 2.5rem;
+
+    @media (width >= 1440px) {
+        min-height: 2.75rem;
+    }
+
+    @media (width >= 1920px) {
+        min-height: 3rem;
+    }
+}
+
+@utility table-cell-inset-sm {
+    padding-inline: 0.75rem;
+    padding-block: 0.5rem;
+
+    @media (width >= 1440px) {
+        padding-inline: 1rem;
+    }
+
+    @media (width >= 1920px) {
+        padding-inline: 1.25rem;
+        padding-block: 0.625rem;
+    }
+}
+
+@utility table-avatar {
+    width: 1rem;
+    height: 1rem;
+    min-width: 1rem;
+    min-height: 1rem;
+    flex-shrink: 0;
+
+    @media (width >= 1440px) {
+        width: 18px;
+        height: 18px;
+        min-width: 18px;
+        min-height: 18px;
+    }
+
+    @media (width >= 1920px) {
+        width: 1.5rem;
+        height: 1.5rem;
+        min-width: 1.5rem;
+        min-height: 1.5rem;
+    }
+}
+
+/* Budget preview typography — scales up at 1920px */
+@utility preview-section-title {
+    font-size: var(--text-display-xs);
+    line-height: var(--text-display-xs--line-height);
+    font-weight: 600;
+    letter-spacing: -0.72px;
+
+    @media (width >= 1920px) {
+        font-size: 36px;
+        line-height: 44px;
+    }
+}
+
+@utility preview-section-body {
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    font-weight: 400;
+
+    @media (width >= 1920px) {
+        font-size: var(--text-md);
+        line-height: var(--text-md--line-height);
+    }
+}
+
+@utility preview-subsection-title {
+    font-size: var(--text-md);
+    line-height: var(--text-md--line-height);
+    font-weight: 600;
+
+    @media (width >= 1920px) {
+        font-size: var(--text-lg);
+        line-height: var(--text-lg--line-height);
+    }
+}
+
+@utility preview-hero-label {
+    font-size: var(--text-lg);
+    line-height: var(--text-lg--line-height);
+    font-weight: 600;
+
+    @media (width >= 1920px) {
+        font-size: var(--text-xl);
+        line-height: var(--text-xl--line-height);
+    }
+}
+
+/** Budget preview hero title — rem-based scale; 36px from 1366px */
+@utility preview-hero-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    font-size: clamp(
+        var(--text-display-xs),
+        0.875rem + 2vw,
+        var(--text-display-md)
+    );
+    line-height: 1.25;
+
+    @media (width >= 1366px) {
+        font-size: var(--text-display-md);
+        line-height: var(--text-display-md--line-height);
+        letter-spacing: var(--text-display-md--letter-spacing);
+    }
+}
+
+/** Fixed compact hero title for mobile layout (375px frame — ignores viewport breakpoints) */
+@utility preview-hero-title-compact {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    line-height: var(--text-xl--line-height);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+@utility preview-card-total {
+    font-size: var(--text-display-xs);
+    line-height: var(--text-display-xs--line-height);
+    font-weight: 600;
+
+    @media (width >= 1920px) {
+        font-size: 36px;
+        line-height: 44px;
+    }
+}
+
+/* Inline support icons beside text-sm in budget preview hero */
+@utility preview-inline-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+
+    @media (width >= 1440px) {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+/* Vertical gap between major preview sections */
+@utility preview-section-gap {
+    gap: 32px;
+
+    @media (width >= 1440px) {
+        gap: 40px;
+    }
+
+    @media (width >= 1920px) {
+        gap: 48px;
+    }
+}
+
+html,
+body {
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-variant-ligatures: contextual;
+    font-variant-ligatures: contextual;
+    -webkit-font-kerning: normal;
+    font-kerning: normal;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-display);
+}
+
+/* Display-scale titles (often used on h1/h2 or title wrappers) */
+[class*="text-display-"] {
+    font-family: var(--font-display);
+}
+
+html {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    height: 100%;
+    overflow: hidden;
+}
+
+html.landing-document-scroll,
+html.landing-document-scroll body {
+    height: auto;
+    overflow: auto;
+}
+
+/* Hide the default expand arrow on Safari.  */
+details summary::-webkit-details-marker {
+    display: none;
+}
+
+/* Hide default arrows from number inputs. */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* Hide the default clear button (X) from search inputs. */
+input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+}
+
+/* Global scrollbar styling - hide arrows completely */
+.scrollbar-default::-webkit-scrollbar {
+    width: 8px !important;
+    height: 8px !important;
+    margin-right: -2px !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    /* Force no buttons */
+    -webkit-scrollbar-button: none !important;
+}
+
+/* Hide ALL scrollbar buttons - most specific selectors with all variations */
+.scrollbar-default::-webkit-scrollbar-button {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+.scrollbar-default::-webkit-scrollbar-button:start:decrement,
+.scrollbar-default::-webkit-scrollbar-button:end:increment {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+.scrollbar-default::-webkit-scrollbar-button:single-button {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+.scrollbar-default::-webkit-scrollbar-button:vertical:start:decrement,
+.scrollbar-default::-webkit-scrollbar-button:vertical:end:increment {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+.scrollbar-default::-webkit-scrollbar-button:horizontal:start:decrement,
+.scrollbar-default::-webkit-scrollbar-button:horizontal:end:increment {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+.scrollbar-default::-webkit-scrollbar-corner {
+    display: none !important;
+    background: transparent !important;
+}
+
+.scrollbar-default::-webkit-scrollbar-track {
+    background: transparent !important;
+    border: none !important;
+}
+
+.scrollbar-default::-webkit-scrollbar-thumb {
+    background-color: var(--color-border-secondary) !important;
+    border-radius: 9999px !important;
+    border: none !important;
+}
+
+.scrollbar-default::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-border-secondary) !important;
+}
+
+/* Additional global rule for all scrollbar buttons - catch all */
+*::-webkit-scrollbar-button,
+*::-webkit-scrollbar-button:start:decrement,
+*::-webkit-scrollbar-button:end:increment,
+*::-webkit-scrollbar-button:single-button,
+*::-webkit-scrollbar-button:vertical:start:decrement,
+*::-webkit-scrollbar-button:vertical:end:increment,
+*::-webkit-scrollbar-button:horizontal:start:decrement,
+*::-webkit-scrollbar-button:horizontal:end:increment {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+/* Phone Input Custom Styles */
+.phone-input-custom {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    flex: 1;
+    min-width: 0;
+}
+
+.phone-input-custom .PhoneInputInput {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    min-width: 0;
+}
+
+.phone-input-custom .PhoneInputCountry {
+    display: none !important; /* Hide default country select - we use custom component */
+}
+
+.phone-input-custom .PhoneInputCountryIcon {
+    display: none !important;
+}
+
+.phone-input-custom .PhoneInputCountrySelect {
+    display: none !important;
+}
+
+.phone-input-custom .PhoneInputCountrySelectArrow {
+    display: none !important;
+}
+
+/* Hide country calling code - we show it in our custom country select */
+.phone-input-custom .PhoneInputCountryIcon--border {
+    display: none !important;
+}
+
+/* Hide any country calling code display (we use national mode, but just in case) */
+.phone-input-custom .PhoneInputCountryCallingCode {
+    display: none !important;
+}
+
+/* Hide country code that appears before the input in international mode */
+.phone-input-custom > div:not(:has(.PhoneInputInput)) {
+    display: none !important;
+}
+
+/* Ensure input shows only national number - hide any country code prefix */
+.phone-input-custom .PhoneInputInput {
+    /* Remove any country code that might appear in the input value */
+}
+
+/* Hide country code prefix in the input value using CSS content manipulation */
+.phone-input-custom input[value^="+"] {
+    /* This is handled by the library in national mode, but we ensure it's hidden */
+}
+
+/* Hide reCAPTCHA v3 badge - Google allows hiding it if you include attribution in privacy policy */
+/* See: https://developers.google.com/recaptcha/docs/faq#id-like-to-hide-the-recaptcha-badge.-what-is-allowed */
+.grecaptcha-badge {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
