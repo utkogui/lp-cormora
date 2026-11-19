@@ -1311,6 +1311,32 @@ input[type="search"]::-webkit-search-cancel-button {
     }
 }
 
+@keyframes landing-hero-drift {
+    0%,
+    100% {
+        transform: scale(1.06) translate3d(0, 0, 0);
+    }
+    50% {
+        transform: scale(1.1) translate3d(0, -1.4%, 0);
+    }
+}
+
+.landing-hero-drift {
+    animation: landing-hero-drift 28s ease-in-out infinite;
+    will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .landing-hero-drift {
+        animation: none !important;
+        transform: none !important;
+    }
+
+    .landing-hero-parallax {
+        transform: none !important;
+    }
+}
+
 .landing-cta .landing-cta-kicker,
 .landing-cta .landing-cta-title,
 .landing-cta .landing-cta-copy,

@@ -4,7 +4,7 @@ import { appUrl } from '@/utils/app-url';
 
 export function LandingHeader() {
   return (
-    <header className="sticky top-0 z-20 border-b border-black/[0.04] bg-[#f7f8ff]/75 backdrop-blur-md">
+    <header className="sticky top-0 z-20 border-b border-brand-300/50 bg-[#FFE7D2]/82 backdrop-blur-md">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-4 md:h-[72px] md:px-8">
         <a href="/" aria-label="Cormora">
           <CormoraLogo className="h-7 w-auto text-brand-secondary md:h-8" />
