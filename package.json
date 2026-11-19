@@ -2,10 +2,13 @@
   "name": "cormora-lp",
   "version": "0.0.0",
   "private": true,
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "next dev --turbopack -p 4100",
     "build": "next build",
-    "start": "next start -p 4100"
+    "start": "next start -H 0.0.0.0 -p ${PORT:-4100}"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.11",
